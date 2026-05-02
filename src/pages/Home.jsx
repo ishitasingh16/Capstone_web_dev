@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader';
 import styles from './Pages.module.css'; // Shared styles for pages
@@ -11,16 +10,24 @@ const Home = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const redditUrl = '/api/reddit/r/popular/hot.json?limit=10&raw_json=1';
+
     // Fetch global trending (e.g., r/popular)
     const fetchTrending = async () => {
       try {
-        const response = await axios.get('https://www.reddit.com/r/popular/hot.json?limit=10');
-        const posts = response.data.data.children.map(child => child.data);
+        const response = await fetch(redditUrl);
+
+        if (!response.ok) {
+          throw new Error(`Reddit request failed with status ${response.status}`);
+        }
+
+        const data = await response.json();
+        const posts = data?.data?.children?.map(child => child.data) || [];
         setTrendingData(posts);
-        setLoading(false);
       } catch (err) {
-        console.error('Trending fetch error:', err.message, err.response);
+        console.error('Trending fetch error:', err);
         setError("Failed to fetch trending analytics.");
+      } finally {
         setLoading(false);
       }
     };
