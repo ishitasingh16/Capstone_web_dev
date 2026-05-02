@@ -19,6 +19,7 @@ const Home = () => {
         setTrendingData(posts);
         setLoading(false);
       } catch (err) {
+        console.error('Trending fetch error:', err.message, err.response);
         setError("Failed to fetch trending analytics.");
         setLoading(false);
       }
