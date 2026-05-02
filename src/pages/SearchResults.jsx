@@ -23,7 +23,7 @@ const SearchResults = () => {
 
     try {
       // Searching subreddits via the Reddit search API
-      const response = await axios.get(`https://www.reddit.com/subreddits/search.json?q=${searchQuery}&limit=50`);
+      const response = await axios.get(`/api/reddit/subreddits/search.json?q=${encodeURIComponent(searchQuery)}&limit=50&raw_json=1`);
       const subs = response.data.data.children.map(child => child.data);
       
       if (subs.length === 0) {
