@@ -14,7 +14,7 @@ const Home = () => {
     // Fetch global trending (e.g., r/popular)
     const fetchTrending = async () => {
       try {
-        const response = await axios.get('/api/reddit/r/popular/hot.json?limit=10');
+        const response = await axios.get('https://www.reddit.com/r/popular/hot.json?limit=10');
         const posts = response.data.data.children.map(child => child.data);
         setTrendingData(posts);
         setLoading(false);
