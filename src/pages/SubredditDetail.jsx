@@ -21,7 +21,7 @@ const SubredditDetail = () => {
       setVisibleCount(10); 
 
       try {
-        const response = await axios.get(`https://www.reddit.com/r/${subredditId}/hot.json?limit=50`);
+        const response = await axios.get(`/api/reddit/r/${encodeURIComponent(subredditId)}/hot.json?limit=50&raw_json=1`);
         const fetchedPosts = response.data.data.children.map(child => child.data);
         setPosts(fetchedPosts);
       } catch (err) {
