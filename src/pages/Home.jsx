@@ -12,33 +12,34 @@ const Home = () => {
   useEffect(() => {
     const fetchTrending = async () => {
       try {
-        const response = await fetch(
-          'https://hn.algolia.com/api/v1/search?tags=front_page'
+        const idsRes = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json');
+        if (!idsRes.ok) throw new Error(`Error fetching topstories: ${idsRes.status}`);
+        const ids = await idsRes.json();
+
+        const topIds = Array.isArray(ids) ? ids.slice(0, 10) : [];
+
+        const items = await Promise.all(
+          topIds.map(async (id) => {
+            try {
+              const r = await fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);
+              if (!r.ok) return null;
+              const it = await r.json();
+              return it || null;
+            } catch (e) {
+              return null;
+            }
+          })
         );
 
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        const posts = data?.hits?.map((hit) => ({
-          id: hit.objectID,
-          title: hit.title,
-          author: hit.author,
-          points: hit.points || 0,
-          num_comments: hit.num_comments || 0,
-          url: hit.url,
-          source: hit.url
-            ? (() => {
-                try {
-                  return new URL(hit.url).hostname;
-                } catch {
-                  return 'news.ycombinator.com';
-                }
-              })()
-            : 'news.ycombinator.com',
-        })) || [];
+        const posts = (items.filter(Boolean)).map((it) => ({
+          id: it.id,
+          title: it.title || 'No title',
+          author: it.by || 'unknown',
+          points: it.score || 0,
+          num_comments: it.descendants || 0,
+          url: it.url || null,
+          source: it.url ? (() => { try { return new URL(it.url).hostname } catch { return 'news.ycombinator.com' } })() : 'news.ycombinator.com',
+        }));
 
         setTrendingData(posts);
       } catch (err) {
