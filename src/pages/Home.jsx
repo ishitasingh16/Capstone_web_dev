@@ -12,16 +12,33 @@ const Home = () => {
   useEffect(() => {
     const fetchTrending = async () => {
       try {
-       const response = await fetch(
-  '/api/r/popular/hot.json?limit=10&raw_json=1'
-);
+        const response = await fetch(
+          'https://hn.algolia.com/api/v1/search?tags=front_page'
+        );
+
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);
         }
 
         const data = await response.json();
 
-        const posts = data?.data?.children?.map((child) => child.data) || [];
+        const posts = data?.hits?.map((hit) => ({
+          id: hit.objectID,
+          title: hit.title,
+          author: hit.author,
+          points: hit.points || 0,
+          num_comments: hit.num_comments || 0,
+          url: hit.url,
+          source: hit.url
+            ? (() => {
+                try {
+                  return new URL(hit.url).hostname;
+                } catch {
+                  return 'news.ycombinator.com';
+                }
+              })()
+            : 'news.ycombinator.com',
+        })) || [];
 
         setTrendingData(posts);
       } catch (err) {
@@ -41,7 +58,7 @@ const Home = () => {
         <h1>
           Global <span className="text-gradient">Trending</span> Analytics
         </h1>
-        <p>Top posts from Reddit right now.</p>
+        <p>Top stories from Hacker News right now.</p>
       </header>
 
       {loading && <Loader />}
@@ -58,7 +75,7 @@ const Home = () => {
                 marginBottom: '1rem',
                 cursor: 'pointer',
               }}
-              onClick={() => navigate(`/analytics/${post.subreddit}`)}
+              onClick={() => navigate(`/analytics/${post.id}`)}
             >
               <h3 style={{ marginBottom: '0.5rem' }}>{post.title}</h3>
 
@@ -68,13 +85,15 @@ const Home = () => {
                   gap: '1rem',
                   color: 'var(--text-muted)',
                   fontSize: '0.875rem',
+                  flexWrap: 'wrap',
                 }}
               >
                 <span>
-                  <strong>r/{post.subreddit}</strong>
+                  <strong>{post.source}</strong>
                 </span>
-                <span>👍 {post.ups}</span>
+                <span>▲ {post.points}</span>
                 <span>💬 {post.num_comments}</span>
+                <span>by {post.author}</span>
               </div>
             </div>
           ))}

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Search } from 'lucide-react';
 import styles from './SearchBar.module.css';
 
-const SearchBar = ({ onSearch, placeholder = "Search for a subreddit..." }) => {
+const SearchBar = ({ onSearch, placeholder = "Search stories..." }) => {
   const [query, setQuery] = useState("");
   const inputRef = useRef(null);
 

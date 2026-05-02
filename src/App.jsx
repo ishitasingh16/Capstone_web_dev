@@ -19,7 +19,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/search" element={<SearchResults />} />
-              <Route path="/analytics/:subredditId" element={<SubredditDetail />} />
+              <Route path="/analytics/:storyId" element={<SubredditDetail />} />
               <Route path="*" element={<div style={{ padding: '24px', textAlign: 'center' }}><h2>Page not found.</h2></div>} />
             </Routes>
           </Suspense>
