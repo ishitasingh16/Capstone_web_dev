@@ -1,20 +1,38 @@
-<<<<<<< HEAD
-# Capstone_web_dev
-=======
-# React + Vite
+# SocialStream Analytics Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📌 Project Overview
+**SocialStream Analytics** is a real-time data visualization platform built with **React** and **JavaScript**. The application fetches live engagement data from social media APIs to provide insights into trending topics and user interactions. This project serves as a Capstone Project to demonstrate proficiency in modern frontend development, state management, and performance optimization.
 
-Currently, two official plugins are available:
+## 🛠️ Tech Stack
+* **Frontend:** React (Vite)[cite: 1]
+* **Language:** JavaScript (ES6+)[cite: 1]
+* **Routing:** React Router[cite: 1]
+* **State Management:** Context API[cite: 1]
+* **API Integration:** Axios[cite: 1]
+* **Styling:** Tailwind CSS[cite: 1]
+* **Deployment:** Vercel[cite: 1]
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Key Features (SOP Compliant)
+As per the mandatory project requirements, the following advanced features are implemented[cite: 1]:
+* **Debounced Search:** Utilizes `useEffect` with a cleanup function to limit API calls during user input, enhancing performance[cite: 1].
+* **Pagination:** Efficiently handles large datasets by slicing data into digestible pages[cite: 1].
+* **Dark Mode Toggle:** A global theme switcher managed via the **Context API** to ensure a seamless user experience[cite: 1].
+* **Dynamic Routing:** Uses `useParams` to create unique URLs for specific community analytics[cite: 1].
 
-## React Compiler
+## 📖 React Concepts Implemented
+This project strictly utilizes core React concepts[cite: 1]:
+* **Hooks:** `useState` for state, `useEffect` for side effects, and `useRef` for DOM access[cite: 1].
+* **Side Effects & Cleanup:** Management of timers and API subscriptions within `useEffect`[cite: 1].
+* **Context API:** `createContext` and `useContext` for global theme management[cite: 1].
+* **Forms:** Controlled components with synthetic event handling[cite: 1].
+* **Routing:** Setup of `BrowserRouter`, `Routes`, and `NavLink` with `isActive` status[cite: 1].
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
->>>>>>> 4fe91b9 (Initial commit of project files)
+## 📂 Project Structure
+```text
+src/
+├── context/      # ThemeContext for Global State (Dark Mode)
+├── components/   # Reusable UI (Navbar, SearchBar, Loader)
+├── pages/        # Route-based components (Home, Search, Details)
+├── assets/       # Global styles and static images
+├── App.jsx       # Router setup and layout
+└── main.jsx      # Application entry point
